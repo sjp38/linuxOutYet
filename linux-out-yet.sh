@@ -8,6 +8,19 @@ fi
 
 version=$1
 
+if [[ ! "$version" =~ ^v[0-9]+\.[0-9]+ ]]
+then
+	echo "wrong version"
+	exit 1
+fi
+
+major_version=$(echo $version | awk -F'[v.]' '{print $2}')
+if [ $major_version -lt 3 ]
+then
+	echo "Only v3.x or later supported"
+	exit 1
+fi
+
 git_kernel_org_url="https://git.kernel.org/pub/scm/linux/kernel/git/"
 
 nr_numbers=$(echo $version | awk -F'.' '{print NF}')
